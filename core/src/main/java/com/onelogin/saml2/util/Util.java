@@ -1139,6 +1139,24 @@ public final class Util {
 	 * @return Xml contained in the document.
 	 */
 	public static String generateNameId(String value, String spnq, String format, X509Certificate cert) {
+		return generateNameId(value, spnq, format, cert, null);
+	}
+	
+	/**
+	 * Generates a nameID.
+	 *
+	 * @param value
+	 * 				 The value
+	 * @param spnq
+	 * 				 SP Name Qualifier
+	 * @param format
+	 * 				 SP Format
+	 * @param cert
+	 * 				 IdP Public certificate to encrypt the nameID
+	 *
+	 * @return Xml contained in the document.
+	 */
+	public static String generateNameId(String value, String spnq, String format, X509Certificate cert, String nq) {
 		String res = null;
 		try {
 		  	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -1147,6 +1165,9 @@ public final class Util {
 			Element nameId = doc.createElement("saml:NameID");
 			if (spnq != null && !spnq.isEmpty()) {
 				nameId.setAttribute("SPNameQualifier", spnq);
+			}
+			if (nq != null && !nq.isEmpty()) {
+				nameId.setAttribute("NameQualifier", nq);
 			}
 			if (format != null && !format.isEmpty()) {
 			nameId.setAttribute("Format", format);

@@ -3,12 +3,18 @@
 
 	<groupId>com.onelogin</groupId>
 	<artifactId>java-saml-toolkit</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>OneLogin java-saml Toolkit Project</name>
 	<description>A Java SAML toolkit by OneLogin</description>
 	<url>https://github.com/onelogin/java-saml</url>
+
+	<parent>
+		<groupId>de.dicos.common</groupId>
+		<artifactId>dicos-pom</artifactId>
+		<version>1.12</version>
+	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -128,10 +134,9 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:git@github.com:onelogin/java-saml.git</connection>
-		<developerConnection>scm:git:git@github.com:onelogin/java-saml.git</developerConnection>
+		<connection>scm:git:git@github.com:shesse/java-saml.git</connection>
+		<developerConnection>scm:git:git@github.com:shesse/java-saml.git</developerConnection>
 		<url>https://github.com/onelogin/java-saml</url>
-		<tag>v2.0.0</tag>
 	</scm>
 
 	<licenses>

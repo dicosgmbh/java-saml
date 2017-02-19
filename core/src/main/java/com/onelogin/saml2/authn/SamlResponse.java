@@ -445,6 +445,9 @@ public class SamlResponse {
      */
 	public String getNameId() throws Exception {
 		HashMap<String,String> nameIdData = getNameIdData();
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("SAMLResponse has nameIdData --> " + nameIdData);
+		}
 		String nameID = null;
 		if (!nameIdData.isEmpty()) {
 			LOGGER.debug("SAMLResponse has NameID --> " + nameIdData.get("Value"));
