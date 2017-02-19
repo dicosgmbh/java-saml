@@ -66,33 +66,6 @@
 	</dependencyManagement>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.4.1</version>
-				<executions>
-					<execution>
-						<id>enforce-versions</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<fail>true</fail>
-							<rules>
-								<requireMavenVersion>
-									<version>3.2.5</version>
-								</requireMavenVersion>
-								<requireJavaVersion>
-									<!-- enforce =1.7 so that we compile against the right JRE -->
-									<version>[1.7,)</version>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
