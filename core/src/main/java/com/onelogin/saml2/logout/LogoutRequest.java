@@ -215,7 +215,7 @@ public class LogoutRequest {
 		String nameQualifier = null;
 		if (nameId != null) {
 			nameIdFormat = settings.getSpNameIDFormat();
-			spNameQualifier = settings.getSpEntityId();
+			//spNameQualifier = settings.getSpEntityId();
 			nameQualifier = settings.getIdpEntityId();
 		} else {
 			nameId = settings.getIdpEntityId();
@@ -228,7 +228,6 @@ public class LogoutRequest {
 			cert = settings.getIdpx509cert();
 		}
 
-		//TODO
 		String nameIdStr = Util.generateNameId(nameId, spNameQualifier, nameIdFormat, cert, nameQualifier);
 		valueMap.put("nameIdStr", nameIdStr);
 
