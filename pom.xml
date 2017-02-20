@@ -90,8 +90,8 @@
 	</build>
 
 	<scm>
-		<connection>scm:git:git@github.com:dicosgmbh/java-saml.git</connection>
-		<developerConnection>scm:git:git@github.com:dicosgmbh/java-saml.git</developerConnection>
+		<connection>scm:git:git@https://github.com:dicosgmbh/java-saml.git</connection>
+		<developerConnection>scm:git:git@https://github.com:dicosgmbh/java-saml.git</developerConnection>
 		<url>https://github.com/onelogin/java-saml</url>
 	</scm>
 
