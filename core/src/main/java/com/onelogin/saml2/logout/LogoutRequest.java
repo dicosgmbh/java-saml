@@ -64,6 +64,11 @@ public class LogoutRequest {
 	private String nameId;
 	
 	/**
+	 * 
+	 */
+	private boolean useQualifiedNameId = false;
+	
+	/**
      * SessionIndex. When the user is logged, this stored it from the AuthnStatement of the SAML Response
      */
 	private String sessionIndex;
@@ -98,6 +103,24 @@ public class LogoutRequest {
 	 * @throws XMLEntityException 
 	 */
 	public LogoutRequest(Saml2Settings settings, HttpRequest request, String nameId, String sessionIndex) throws XMLEntityException {
+		this(settings, request, nameId, false, sessionIndex);
+	}
+	
+	/**
+	 * Constructs the LogoutRequest object.
+	 *
+	 * @param settings
+	 *              OneLogin_Saml2_Settings
+	 * @param request
+     *              the HttpRequest object to be processed (Contains GET and POST parameters, request URL, ...).
+	 * @param nameId
+	 *              The NameID that will be set in the LogoutRequest.
+	 * @param sessionIndex
+	 *              The SessionIndex (taken from the SAML Response in the SSO process).
+	 *
+	 * @throws XMLEntityException 
+	 */
+	public LogoutRequest(Saml2Settings settings, HttpRequest request, String nameId, boolean useQualifiedNameId, String sessionIndex) throws XMLEntityException {
 		this.settings = settings;
 		this.request = request;
 
@@ -112,6 +135,7 @@ public class LogoutRequest {
 			id = Util.generateUniqueID();
 			issueInstant = Calendar.getInstance();
 			this.nameId = nameId;
+			this.useQualifiedNameId = useQualifiedNameId;
 			this.sessionIndex = sessionIndex;
 
 			StrSubstitutor substitutor = generateSubstitutor(settings);
@@ -215,8 +239,10 @@ public class LogoutRequest {
 		String nameQualifier = null;
 		if (nameId != null) {
 			nameIdFormat = settings.getSpNameIDFormat();
-			//spNameQualifier = settings.getSpEntityId();
-			nameQualifier = settings.getIdpEntityId();
+			if (useQualifiedNameId) {
+				spNameQualifier = settings.getSpEntityId();
+				nameQualifier = settings.getIdpEntityId();
+			}
 		} else {
 			nameId = settings.getIdpEntityId();
 			nameIdFormat = Constants.NAMEID_ENTITY;

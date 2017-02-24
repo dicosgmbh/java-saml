@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -129,6 +130,19 @@ public class Auth {
 	/**
 	 * Initializes the SP SAML instance.
 	 *
+	 * @param prop
+	 * 				Properties object with the settings
+	 *
+	 * @throws IOException
+	 * @throws SettingsException 
+	 */
+	public Auth(Properties prop) throws IOException, SettingsException {
+		this(new SettingsBuilder().fromProps(prop).build(), null, null);
+	}
+	
+	/**
+	 * Initializes the SP SAML instance.
+	 *
 	 * @param filename
 	 * 				String Filename with the settings
 	 *
@@ -154,6 +168,23 @@ public class Auth {
 		this(new SettingsBuilder().fromFile("onelogin.saml.properties").build(), request, response);
 	}
 
+	/**
+	 * Initializes the SP SAML instance.
+	 *
+	 * @param prop
+	 *				Properties with the settings
+	 * @param request
+	 * 				HttpServletRequest object to be processed
+	 * @param response
+	 * 				HttpServletResponse object to be used
+	 *
+	 * @throws SettingsException 
+	 * @throws IOException
+	 */
+	public Auth(Properties prop, HttpServletRequest request, HttpServletResponse response) throws SettingsException, IOException {
+		this(new SettingsBuilder().fromProps(prop).build(), request, response);
+	}
+	
 	/**
 	 * Initializes the SP SAML instance.
 	 *
@@ -324,9 +355,31 @@ public class Auth {
 	 * @throws XMLEntityException
 	 */
 	public String logout(String returnTo, String nameId, String sessionIndex, Boolean stay) throws IOException, XMLEntityException {
+		return logout(returnTo, nameId, false, sessionIndex, stay);
+	}
+	
+	/**
+	 * Initiates the SLO process.
+	 *
+	 * @param returnTo 
+     *				The target URL the user should be returned to after logout (relayState).
+	 *				Will be a self-routed URL when null, or not be appended at all when an empty string is provided
+	 * @param nameId 
+     *				The NameID that will be set in the LogoutRequest.
+	 * @param sessionIndex 
+     *				The SessionIndex (taken from the SAML Response in the SSO process).
+	 * @param stay
+	 *            True if we want to stay (returns the url string) False to execute redirection
+	 *
+	 * @return the SLO URL with the LogoutRequest if stay = True
+	 *
+	 * @throws IOException
+	 * @throws XMLEntityException
+	 */
+	public String logout(String returnTo, String nameId, boolean useQualifiedNameId, String sessionIndex, Boolean stay) throws IOException, XMLEntityException {
 		Map<String, String> parameters = new HashMap<String, String>();
 
-		LogoutRequest logoutRequest = new LogoutRequest(settings, null, nameId, sessionIndex);
+		LogoutRequest logoutRequest = new LogoutRequest(settings, null, nameId, useQualifiedNameId, sessionIndex);
 		String samlLogoutRequest = logoutRequest.getEncodedLogoutRequest();
 		parameters.put("SAMLRequest", samlLogoutRequest);
 
@@ -373,7 +426,24 @@ public class Auth {
 	 * @throws XMLEntityException
 	 */
 	public void logout(String returnTo, String nameId, String sessionIndex) throws IOException, XMLEntityException {
-		logout(returnTo, nameId, sessionIndex, false);
+		logout(returnTo, nameId, false, sessionIndex);
+	}
+	/**
+	 * Initiates the SLO process.
+	 *
+	 * @param returnTo 
+     *				The target URL the user should be returned to after logout (relayState).
+	 *				Will be a self-routed URL when null, or not be appended at all when an empty string is provided
+	 * @param nameId 
+     *				The NameID that will be set in the LogoutRequest.
+	 * @param sessionIndex 
+     *				The SessionIndex (taken from the SAML Response in the SSO process).
+	 *
+	 * @throws IOException
+	 * @throws XMLEntityException
+	 */
+	public void logout(String returnTo, String nameId, boolean useQualifiedNameId, String sessionIndex) throws IOException, XMLEntityException {
+		logout(returnTo, nameId, useQualifiedNameId, sessionIndex, false);
 	}
 
 	/**

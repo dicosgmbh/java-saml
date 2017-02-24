@@ -100,6 +100,20 @@ public class SettingsBuilder {
 	public final static String ORGANIZATION_URL = "onelogin.saml2.organization.url";
 
 	/**
+	 * Load settings from Properties.
+	 *
+	 * @param prop the properties to load
+	 * 
+	 * @return the SettingsBuilder object with the settings loaded from the file
+	 *
+	 * @throws IOException 
+	 */
+	public SettingsBuilder fromProps(Properties prop) throws IOException {
+		this.loadProps(prop);
+		return this;
+	}
+
+	/**
 	 * Load settings from the file.
 	 *
 	 * @param propFileName
@@ -112,6 +126,18 @@ public class SettingsBuilder {
 	public SettingsBuilder fromFile(String propFileName) throws IOException {
 		this.loadPropFile(propFileName);
 		return this;
+	}
+
+	/**
+	 * Loads the settings from a properties object
+	 *
+	 * @param propFileName
+	 *            the name of the file
+	 *
+	 * @throws IOException 
+	 */
+	private void loadProps(Properties prop) throws IOException {
+		this.prop.putAll(prop);
 	}
 
 	/**
